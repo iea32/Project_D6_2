@@ -1,15 +1,8 @@
-{% extends 'simple_app/base.html' %}
+{% extends 'sample_app/base.html' %}
 
 {% block title %} Product list {% endblock title %}
 
 {% block content %}
-
-
-<!-- Перед таблицей добавим форму для поиска -->
-<form method="GET">
-    {{ filter.form }} <!-- Форму от фильтров за нас сделает Django. А вот кнопку, увы придётся делать самому -->
-    <input type="submit" value="Найти">
-</form>
 
 <table>
     <thead>
@@ -26,10 +19,10 @@
             Quantity
         </th>
     </thead>
-    {% for product in filter.qs %} <!-- поменяем products на filter.qs, т. к. теперь мы забираем уже отобранную по каким-то параметрам информацию -->
+    {% for product in filter.qs %} <!-- поменяем products на filter.qs, т.к. теперь мы забираем уже отобранную по каким-то параметрам информацию -->
     <tr>
         <td>
-            {{ product.name|title }}
+            <a href="{% url 'product_detail' product.id %}">{{ product.name|title }}</a> <!-- При нажатии на имя товара в таблице нас теперь будет перекидывать на страницу с информацией о товаре -->
         </td>
         <td>
             {{ product.category.name|title }}
@@ -43,7 +36,6 @@
     </tr>
     {% endfor %}
 </table>
-
 {% if is_paginated %}
 
     {% if page_obj.has_previous %}
